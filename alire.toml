@@ -1,0 +1,10 @@
+name = "filoject"
+description = "Dependency injection framework for Ada"
+version = "0.1.0-dev"
+
+authors = ["René Hartmann"]
+maintainers = ["René Hartmann <rhartmann@users.sourceforge.net>"]
+maintainers-logins = ["rehartmann"]
+licenses = "BSD-3-Clause"
+website = ""
+tags = ["di"]

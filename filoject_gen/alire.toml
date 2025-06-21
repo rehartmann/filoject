@@ -1,0 +1,15 @@
+name = "filoject_gen"
+description = "Code generator of Filoject, a dependency injection framework for Ada"
+version = "0.1.0-dev"
+
+authors = ["RenÃ© Hartmann"]
+maintainers = ["RenÃ© Hartmann <rhartmann@users.sourceforge.net>"]
+maintainers-logins = ["rehartmann"]
+licenses = "BSD-3-Clause"
+website = ""
+tags = ["di", "code-generation"]
+
+executables = ["filoject_gen"]
+
+[[depends-on]]
+libadalang = "^25.0.0"
