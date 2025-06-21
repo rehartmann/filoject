@@ -255,5 +255,5 @@ Fjgen uses libadalang to analyse the .ads files.
 -v  
   Display information about managed types, bindings, access types, and initializers.
 
--d dir
+-d dir  
   Specify the destination directory for generated files
