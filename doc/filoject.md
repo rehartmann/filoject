@@ -137,6 +137,9 @@ If no target type is found or the target type is ambiguous, a Resolution_Error w
 
 Bindings can be created programmatically using `Bind` and retrieved using `Get_Bind`.
 
+However, `Bind` can only be used to add bindings (or change existing bindings) to already existing
+implementations because generated code is required for the creation of objects.
+
 ## Contexts and scopes
 
 Filoject provides two scopes: `Application` and `Dynamic`.
@@ -233,10 +236,6 @@ Fjgen reads .ads files and generates the following files:
   each .ads file read by the generator.
 
 These must be compiled and linked to the application. The application must contain a `with Filoject.Provisioning;` statement to make the generated code available.
-
-Code generation is required for component injection and initializers becoming available.
-A binding can be defined dynamically using `Bind` but in this case, component injection and
-initializer procedures are not available for the target type.
 
 Fjgen uses libadalang to analyse the .ads files.
 

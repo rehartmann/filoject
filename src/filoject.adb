@@ -118,7 +118,7 @@ package body Filoject is
       --  find the instance and will not go into infinite recursion
       Context.Managed_Objects.Put (T => Implementation,
                                    Obj => (Obj => Addr,
-                            Scoped => Object_Scope));
+                                           Scoped => Object_Scope));
       Provider_Implementation.Initialize (Implementation, Addr, Context);
       return To_T_Access (Addr);
    end Get;
@@ -126,12 +126,19 @@ package body Filoject is
    procedure Bind (Source : Ada.Tags.Tag;
                    Implementation : Ada.Tags.Tag) is
    begin
-      --  Check if Implementation is managed
-      --  ..
+      if Is_Abstract (Implementation) then
+         raise Resolution_Exception
+           with Ada.Tags.Expanded_Name (Implementation) & " is abstract";
+      end if;
       if not Ada.Tags.Is_Descendant_At_Same_Level (Implementation, Source) then
-         raise Resolution_Exception with
-         Ada.Tags.Expanded_Name (Implementation) & " cannot implement "
+         raise Resolution_Exception
+           with Ada.Tags.Expanded_Name (Implementation) & " cannot implement "
            & Ada.Tags.Expanded_Name (Source);
+      end if;
+      if not Is_Implementation (Implementation) then
+         raise Resolution_Exception
+           with "objects of type " & Ada.Tags.Expanded_Name (Implementation)
+           & " cannot be created.";
       end if;
       Bindings.Insert (Source, Implementation);
    end Bind;
