@@ -5,7 +5,6 @@ with Ada.Strings.Wide_Wide_Maps;
 with Ada.Characters.Handling;
 with Ada.Wide_Wide_Text_IO; use Ada.Wide_Wide_Text_IO;
 with Ada.Strings;
---  with Ada.Text_IO;
 
 package body Filoject_Gen.Generation is
 
@@ -223,8 +222,20 @@ package body Filoject_Gen.Generation is
             for C of T.Components loop
                if C.Inject and then To_Package_Name (T.Name) = Package_Name
                then
-                  Put_Line (F, "      Obj." & To_Wide_Wide_String (C.Name) &
+                  Put_Line (F, "      if Filoject.Get_Scope ("
+                            & To_Mixed_Case (Remove_Package_Name (C.Target_Type, Package_Name))
+                            & "'Tag) = Filoject.Application then");
+                  Put_Line (F, "         Obj." & To_Wide_Wide_String (C.Name) &
+                              " := Get (Filoject.Get_Application_Context);");
+                  Put_Line (F, "      else");
+                  Put_Line (F, "         if Filoject.Get_Scope (Context) = Filoject.Application then");
+                  Put_Line (F, "            raise Filoject.Resolution_Exception");
+                  Put_Line (F, "            with ""cannot inject object with dynamic scope "
+                              & "into context with application scope"";");
+                  Put_Line (F, "         end if;");
+                  Put_Line (F, "         Obj." & To_Wide_Wide_String (C.Name) &
                               " := Get (Context);");
+                  Put_Line (F, "      end if;");
                end if;
             end loop;
          end Put_Component_Injections;
@@ -382,6 +393,8 @@ package body Filoject_Gen.Generation is
                  & Ada.Characters.Handling.To_Lower (Library_Name) & "_initializers.adb");
          Put_Generated (F);
          Put_Line (F, "package body " & To_Mixed_Case (Package_Name) & ".Filoject_Initializers is");
+         Put_Line (F, "");
+         Put_Line (F, "   use type Filoject.Scope;");
          Put_Line (F, "");
          for TN of Implementations loop
             Type_Name := Most_Specific_Supertype (TN);

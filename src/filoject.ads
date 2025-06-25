@@ -27,6 +27,9 @@ package Filoject is
    function Get_Scope (T : Ada.Tags.Tag)
                        return Scope;
 
+   procedure Set_Scope (T : Ada.Tags.Tag;
+                        S : Scope);
+
    function Get_Scope (Context : Context_Ref)
                        return Scope;
 
@@ -100,5 +103,15 @@ private
    use Tag_Hashed_Maps;
 
    Bindings : Tag_Hashed_Maps.Map;
+
+   package Tag_Scope_Maps is new
+     Ada.Containers.Indefinite_Hashed_Maps
+       (Key_Type        => Ada.Tags.Tag,
+        Element_Type    => Scope,
+        Hash            => Hash,
+        Equivalent_Keys => "=");
+   use Tag_Hashed_Maps;
+
+   Tag_Scopes : Tag_Scope_Maps.Map;
 
 end Filoject;

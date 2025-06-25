@@ -1,8 +1,11 @@
 with Ada.Strings;
 with Ada.Strings.Hash;
 with Ada.Unchecked_Conversion;
+with Ada.Text_IO; use Ada.Text_IO;
 
 package body Filoject is
+
+   use Tag_Scope_Maps;
 
    Application_Context : aliased Context;
 
@@ -72,13 +75,41 @@ package body Filoject is
 
    function Get_Scope (T : Ada.Tags.Tag)
                        return Scope is
+      C : Tag_Scope_Maps.Cursor := Tag_Scopes.Find (T);
+      Impl_Tag : Ada.Tags.Tag;
    begin
+      if C /= Tag_Scope_Maps.No_Element then
+         return Tag_Scopes (C);
+      end if;
       if not Is_Implementation (T) then
+         if Bindings.Contains (T) then
+            Impl_Tag := Bindings (T);
+            C := Tag_Scopes.Find (Impl_Tag);
+            if C /= Tag_Scope_Maps.No_Element then
+               return Tag_Scopes (C);
+            end if;
+            if not Is_Implementation (Impl_Tag) then
+               raise Constraint_Error
+                 with "type " & Ada.Tags.Expanded_Name (Impl_Tag)
+                 & " is not an implementation";
+            end if;
+            return Application;
+         end if;
          raise Constraint_Error with "type " & Ada.Tags.Expanded_Name (T)
            & " is not an implementation";
       end if;
       return Application;
    end Get_Scope;
+
+   procedure Set_Scope (T : Ada.Tags.Tag;
+                        S : Scope) is
+   begin
+      if not Is_Implementation (T) then
+         raise Constraint_Error with "type " & Ada.Tags.Expanded_Name (T)
+           & " is not an implementation";
+      end if;
+      Tag_Scopes.Include (T, S);
+   end Set_Scope;
 
    function Get_Scope (Context : Context_Ref)
                        return Scope is
@@ -94,16 +125,16 @@ package body Filoject is
       Found : Boolean;
 
       function To_T_Access is
-      new Ada.Unchecked_Conversion (Source => System.Address,
-                                    Target => T_Access);
+        new Ada.Unchecked_Conversion (Source => System.Address,
+                                      Target => T_Access);
    begin
       Implementation := Find_Implementation (T'Tag);
       Object_Scope := Get_Scope (Implementation);
-      if Object_Scope = Application
-        and then Get_Scope (Context) /= Application
+      if Object_Scope /= Get_Scope (Context)
       then
          raise Constraint_Error
-           with "cannot refer to object in application scope from non-application context";
+           with "object scope (" & Object_Scope'Image
+           & ") does not match context scope (" & Get_Scope (Context)'Image & ")";
       end if;
       Context.Managed_Objects.Get (Implementation,
                                    Obj,
