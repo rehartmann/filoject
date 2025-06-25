@@ -110,7 +110,6 @@ private
         Element_Type    => Scope,
         Hash            => Hash,
         Equivalent_Keys => "=");
-   use Tag_Hashed_Maps;
 
    Tag_Scopes : Tag_Scope_Maps.Map;
 

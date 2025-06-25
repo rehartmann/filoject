@@ -1,7 +1,6 @@
 with Ada.Strings;
 with Ada.Strings.Hash;
 with Ada.Unchecked_Conversion;
-with Ada.Text_IO; use Ada.Text_IO;
 
 package body Filoject is
 
