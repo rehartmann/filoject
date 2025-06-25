@@ -156,7 +156,7 @@ An object which belongs to a dynamic context cannot be injected into an object w
 The scope of types managed by Filoject and contexts can be obtained using the `Get_Scope` functions.
 
 By default, a type has scope `Application`. The scope of a type can be changed to `Dynamic` by calling
-`Get_Scope`. This allows an object to be inserted into a context with scope `Dynamic`.
+`Set_Scope`. This allows an object to be inserted into a context with scope `Dynamic`.
 
 ## Component injection
 
