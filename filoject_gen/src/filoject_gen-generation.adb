@@ -50,7 +50,7 @@ package body Filoject_Gen.Generation is
                           return String is
       Result : String := CC.To_String (Package_Name);
    begin
-      for I in Result'First .. Result'Last loop
+      for I in Result'Range loop
          if Result (I) = '.' then
             Result (I) := '_';
          elsif Ada.Characters.Handling.Is_Letter (Result (I)) then
@@ -565,7 +565,7 @@ package body Filoject_Gen.Generation is
       Put_Line (F, "");
       Put_Line
         (F,
-         "   for I in Generated_Bindings'First .. Generated_Bindings'Last loop");
+         "   for I in Generated_Bindings'Range loop");
       Put_Line
         (F, "      Filoject.Bindings.Include (Generated_Bindings (I).Source,");
       Put_Line
