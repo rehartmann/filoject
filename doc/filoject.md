@@ -135,7 +135,7 @@ Otherwise Filoject will instantiate and initialize the target type, including in
 
 If no target type is found or the target type is ambiguous, a Resolution_Error will be raised.
 
-Bindings can be created programmatically using `Bind` and retrieved using `Get_Bind`.
+Bindings can be created programmatically using `Bind` and retrieved using `Get_Binding`.
 
 However, `Bind` can only be used to add bindings (or change existing bindings) to already existing
 implementations because generated code is required for the creation of objects.
