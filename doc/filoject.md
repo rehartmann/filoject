@@ -151,9 +151,9 @@ The application context has the scope `Application`.
 Other contexts can be dynamically created using `Create_Context` and destroyed using `Destroy_Context`.
 These contexts have the scope `Dynamic`.
 
-An object which belongs to a dynamic context cannot be injected into an object which has application scope because this would result in a dangling pointer when the first scope is destroyed.
+An object which belongs to a dynamic context cannot be injected into an object which has application scope because this would result in a dangling pointer when the dynamic context is destroyed.
 
-The scope of types managed by Filoject and contexts can be obtained using the `Get_Scope` functions.
+The scope of types managed by Filoject and the scope of contexts can be obtained using the `Get_Scope` functions.
 
 By default, a type has scope `Application`. The scope of a type can be changed to `Dynamic` by calling
 `Set_Scope`. This allows an object to be inserted into a context with scope `Dynamic`.
