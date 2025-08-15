@@ -236,7 +236,7 @@ which is found in the `filoject_gen` directory.
 Fjgen reads .ads files and generates the following files:
 
 * `filoject-provisioning.ads`  and `filoject-provisioning.adb`
-* `<package>-filoject_initializers.ads` and `<package>-filoject_initializers.ads` for
+* `<package>-filoject_initializers.ads` and `<package>-filoject_initializers.adb` for
   each .ads file read by the generator.
 
 These must be compiled and linked to the application. The application must contain a `with Filoject.Provisioning;` statement to make the generated code available.
@@ -245,7 +245,7 @@ Fjgen uses libadalang to analyse the .ads files.
 
 ### Synopsis
 
-`drgen [-h] [--version] [-v] [-d dir] [file]...`
+`fjgen [-h] [--version] [-v] [-d dir] [file]...`
 
 ### Options
 
