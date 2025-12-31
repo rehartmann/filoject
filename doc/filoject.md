@@ -131,14 +131,15 @@ and calling `Get` with a context reference as an argument.
 Filoject will then determine a target type. If an object of that target type is already present
 in the context, it will be returned.
 
-Otherwise Filoject will instantiate and initialize the target type, including instantiating and initializing dependent types if necessary, and return a pointer to the object instantiated.
+Otherwise Filoject will instantiate and initialize the target type, including instantiating and initializing
+component types if necessary, and return a pointer to the object instantiated.
 
 If no target type is found or the target type is ambiguous, a Resolution_Error will be raised.
 
 Bindings can be created programmatically using `Bind` and retrieved using `Get_Binding`.
 
-However, `Bind` can only be used to add bindings (or change existing bindings) to already existing
-implementations because generated code is required for the creation of objects.
+However, `Bind` can only be used to add bindings (or change existing bindings) to types already bound
+to some source type using `Bind_To_Implementation` because generated code is required for the creation of objects.
 
 ## Contexts and scopes
 
