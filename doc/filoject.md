@@ -42,7 +42,8 @@ package Greeters is
 private
 
    type Client is tagged record
-      G : Greeter_Access;
+      G : Greeter_Access
+        with Inject => True;
    end record;
 
 end Greeters;
@@ -165,6 +166,7 @@ A component eligible for component injection must meet the following criteria:
 
 * It is a component of a tagged type which is the target of a binding.
 * The type of the component is a class-wide access type which designates a tagged type.
+* It is is marked using an `Inject` aspect with a value of `True`.
 
 ## Initalizer procedures
 

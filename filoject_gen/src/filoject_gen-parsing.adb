@@ -34,11 +34,27 @@ package body Filoject_Gen.Parsing is
          return To_Wide_Wide_String (Package_Name) & '.' & To_Upper (Source);
       end To_Expanded_Name;
 
+      function Has_Inject (Assocs : LAL.Aspect_Assoc_List)
+                           return Boolean is
+      begin
+         for C of Assocs loop
+            if To_Upper (C.As_Aspect_Assoc.F_Id.Text) = "INJECT"
+              and then To_Upper (C.As_Aspect_Assoc.F_Expr.Text) = "TRUE"
+            then
+               return True;
+            end if;
+         end loop;
+         return False;
+      end Has_Inject;
+
       procedure Add_Components (Components : Ada_Node_List;
                                 T : in out Record_Type) is
       begin
          for N of Components loop
-            if N.Kind = LALCO.Ada_Component_Decl then
+            if N.Kind = LALCO.Ada_Component_Decl
+              and then not N.As_Component_Decl.F_Aspects.Is_Null
+              and then Has_Inject (N.As_Component_Decl.F_Aspects.F_Aspect_Assocs)
+            then
                case N.As_Component_Decl.F_Component_Def.F_Type_Expr.Kind is
                   when LALCO.Ada_Subtype_Indication =>
                      T.Components.Append
@@ -49,6 +65,8 @@ package body Filoject_Gen.Parsing is
                          Component_Type => To_Unbounded_Wide_Wide_String
                            (To_Upper (N.As_Component_Decl.F_Component_Def
                             .F_Type_Expr.As_Subtype_Indication.Text)),
+                         Location => (File_Name => To_Unbounded_String (File_Name),
+                                      Line => Natural (N.Sloc_Range.Start_Line)),
                          Inject => False));
                   when others =>
                      null;
@@ -81,19 +99,6 @@ package body Filoject_Gen.Parsing is
             end if;
          end loop;
       end Add_Params;
-
-      function Has_Inject (Assocs : LAL.Aspect_Assoc_List)
-                           return Boolean is
-      begin
-         for C of Assocs loop
-            if To_Upper (C.As_Aspect_Assoc.F_Id.Text) = "INJECT"
-              and then To_Upper (C.As_Aspect_Assoc.F_Expr.Text) = "TRUE"
-            then
-               return True;
-            end if;
-         end loop;
-         return False;
-      end Has_Inject;
 
       function Is_Initializer_Signature (Subp : LAL.Subp_Spec)
                                          return Boolean is

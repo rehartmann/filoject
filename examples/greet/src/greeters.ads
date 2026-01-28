@@ -33,7 +33,8 @@ package Greeters is
 private
 
    type Client is tagged record
-      G : Greeter_Access;
+      G : Greeter_Access
+        with Inject => True;
    end record;
 
 end Greeters;

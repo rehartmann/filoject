@@ -246,12 +246,19 @@ procedure Filoject_Gen.Application is
                end if;
             end if;
             AC := Access_Types.Find (Type_Name);
-            if AC /= Access_Type_Maps.No_Element then
-               C := (Name => C.Name,
-                     Component_Type => Type_Name,
-                     Inject => True,
-                     Target_Type => Element (AC).Target_Name);
+            if AC = Access_Type_Maps.No_Element then
+               Report_Error ("error: the type of "
+                             & To_String (T.Name) & "." & To_String (C.Name)
+                             & " is not injectable",
+                             C.Location);
+               Success := False;
+               return;
             end if;
+            C := (Name => C.Name,
+                  Component_Type => Type_Name,
+                  Inject => True,
+                  Target_Type => Element (AC).Target_Name,
+                  Location => C.Location);
          end loop;
       end loop;
 

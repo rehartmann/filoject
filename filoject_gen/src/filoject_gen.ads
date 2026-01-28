@@ -14,9 +14,15 @@ package Filoject_Gen is
    Library_Name : constant String;
    Version : constant String;
 
+   type Source_Location is record
+      File_Name : Unbounded_String;
+      Line : Natural;
+   end record;
+
    type Component (Inject : Boolean := False) is record
       Name : Unbounded_Wide_Wide_String;
       Component_Type : Unbounded_Wide_Wide_String;
+      Location : Source_Location;
       case Inject is
          when False =>
             null;
@@ -72,11 +78,6 @@ package Filoject_Gen is
      Ada.Containers.Vectors
        (Index_Type   => Positive,
         Element_Type => Param);
-
-   type Source_Location is record
-      File_Name : Unbounded_String;
-      Line : Natural;
-   end record;
 
    type Proc is record
       Name : Unbounded_Wide_Wide_String;
