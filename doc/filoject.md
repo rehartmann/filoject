@@ -253,7 +253,7 @@ Fjgen uses libadalang to analyse the .ads files.
 ### Options
 
 -h  
-  Displays help and exit
+  Display help and exit
 
 --version  
   Display version and exit

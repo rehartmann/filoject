@@ -132,6 +132,6 @@ package Filoject_Gen is
 private
    Application_Name : constant String := "fjgen";
    Library_Name : constant String := "filoject";
-   Version : constant String := "0.1.0-dev";
+   Version : constant String := "0.2.0-dev";
 
 end Filoject_Gen;
