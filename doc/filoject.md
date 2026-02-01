@@ -89,6 +89,7 @@ end Greet;
 ```
 
 The instantiated generic procedure `Get` creates objects of type `Default_Greeter` and `Client`,
+invokes the initializer procedure `Initialize` to initialize the `Default_Greeter` object,
 injects a pointer to the `Default_Greeter` object into the `Client` object,
 and returns a pointer to the `Client` object.
 
@@ -244,7 +245,7 @@ Fjgen reads .ads files and generates the following files:
 
 These must be compiled and linked to the application. The application must contain a `with Filoject.Provisioning;` statement to make the generated code available.
 
-Fjgen uses libadalang to analyse the .ads files.
+Fjgen uses libadalang to analyze the .ads files.
 
 ### Synopsis
 
